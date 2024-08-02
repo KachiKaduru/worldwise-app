@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./contexts/FakeAuthContext";
 import { CitiesProvider } from "./contexts/CitiesContext";
 
 import Homepage from "./pages/Homepage";
@@ -11,32 +12,42 @@ import CityList from "./components/CityList";
 import CountryList from "./components/CountryList";
 import City from "./components/City";
 import Form from "./components/Form";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 export default function App() {
   return (
-    <CitiesProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* PAGES ROUTES  */}
-          <Route index path="/" element={<Homepage />} />
-          <Route path="pricing" element={<Pricing />} />
-          <Route path="product" element={<Product />} />
-          <Route path="login" element={<Login />} />
+    <AuthProvider>
+      <CitiesProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* PAGES ROUTES  */}
+            <Route index path="/" element={<Homepage />} />
+            <Route path="pricing" element={<Pricing />} />
+            <Route path="product" element={<Product />} />
+            <Route path="login" element={<Login />} />
 
-          {/* NESTED ROUTES */}
-          <Route path="app" element={<AppLayout />}>
-            <Route index element={<Navigate replace to={"cities"} />} />
-            <Route path="cities" element={<CityList />} />
-            {/* STORING STATE IN URL ROUTE */}
-            <Route path="cities/:id" element={<City />} />
-            <Route path="countries" element={<CountryList />} />
-            <Route path="form" element={<Form />} />
-          </Route>
+            {/* NESTED ROUTES */}
+            <Route
+              path="app"
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route index element={<Navigate replace to={"cities"} />} />
+              <Route path="cities" element={<CityList />} />
+              {/* STORING STATE IN URL ROUTE */}
+              <Route path="cities/:id" element={<City />} />
+              <Route path="countries" element={<CountryList />} />
+              <Route path="form" element={<Form />} />
+            </Route>
 
-          {/* INCASE THE PAGE DOES NOT EXIST  */}
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </CitiesProvider>
+            {/* INCASE THE PAGE DOES NOT EXIST  */}
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CitiesProvider>
+    </AuthProvider>
   );
 }

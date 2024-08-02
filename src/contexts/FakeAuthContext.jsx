@@ -58,6 +58,8 @@ function useAuth() {
   const context = useContext(AuthContext);
 
   if (context === undefined) throw new Error("AuthContext was usd outside of AuthProvider");
+
+  return context;
 }
 
 export { AuthProvider, useAuth };
