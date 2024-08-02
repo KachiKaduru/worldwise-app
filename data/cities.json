@@ -23,42 +23,6 @@
         "lng": -3.7133789062500004
       },
       "id": "17806751"
-    },
-    {
-      "cityName": "Berlin",
-      "country": "Germany",
-      "emoji": "🇩🇪",
-      "date": "2027-02-12T09:24:11.863Z",
-      "notes": "Amazing 😃",
-      "position": {
-        "lat": 52.53586782505711,
-        "lng": 13.376933665713324
-      },
-      "id": "98443197"
-    },
-    {
-      "id": "c6f5",
-      "cityName": "Ngor-Okpala",
-      "country": "Nigeria",
-      "emoji": "🇳🇬",
-      "date": "2024-08-06",
-      "notes": "my hometown",
-      "position": {
-        "lat": "5.383494414094856",
-        "lng": "7.149224281311036"
-      }
-    },
-    {
-      "id": "c069",
-      "cityName": "Balearic Islands",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2003-12-23",
-      "notes": "",
-      "position": {
-        "lat": "38.91668153637508",
-        "lng": "1.5161132812500002"
-      }
     }
   ]
 }
