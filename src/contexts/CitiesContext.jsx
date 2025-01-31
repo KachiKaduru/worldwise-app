@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const CitiesContext = createContext();
 
@@ -46,10 +46,6 @@ function reducer(state, action) {
 }
 
 function CitiesProvider({ children }) {
-  // const [cities, setCities] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [currentCity, setCurrentCity] = useState({});
-
   const [state, dispatch] = useReducer(reducer, initialState);
   const { cities, isLoading, currentCity, error } = state;
 
@@ -58,7 +54,7 @@ function CitiesProvider({ children }) {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}cities`);
+        const res = await fetch(`${BASE_URL}/cities`);
         const data = await res.json();
         dispatch({ type: "cities/loaded", payload: data });
       } catch {
@@ -74,7 +70,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}cities/${id}`);
+      const res = await fetch(`${BASE_URL}/cities/${id}`);
       const data = await res.json();
       dispatch({ type: "city/loaded", payload: data });
     } catch {
@@ -86,7 +82,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}cities`, {
+      const res = await fetch(`${BASE_URL}/cities`, {
         method: "POST",
         body: JSON.stringify(newCity),
         headers: {
@@ -104,7 +100,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      await fetch(`${BASE_URL}cities/${id}`, {
+      await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
       dispatch({ type: "city/deleted", payload: id });

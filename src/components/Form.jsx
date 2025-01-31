@@ -62,6 +62,7 @@ function Form() {
     },
     [lat, lng]
   );
+
   async function handleSubmit(e) {
     e.preventDefault();
 
