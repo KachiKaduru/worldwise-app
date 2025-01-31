@@ -1,10 +1,11 @@
 import { createContext, useContext, useReducer } from "react";
+import { createNewUser } from "../helpers/apiSupabase";
 
 const AuthContext = createContext();
 
 const initialState = {
-  user: null,
-  isAuthenticated: false,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  isAuthenticated: localStorage.getItem("isAuthenticated") || false,
 };
 
 function reducer(state, action) {
@@ -20,23 +21,18 @@ function reducer(state, action) {
   }
 }
 
-const FAKE_USER = {
-  name: "Jack",
-  email: "jack@example.com",
-  password: "qwerty",
-  avatar: "https://i.pravatar.cc/100?u=zz",
-};
-
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { user, isAuthenticated } = state;
 
-  function login(email, password) {
-    if (email === FAKE_USER.email && password === FAKE_USER.password)
-      dispatch({ type: "login", payload: FAKE_USER });
+  async function login(name, email) {
+    await createNewUser(name, email);
+    dispatch({ type: "login", payload: JSON.parse(localStorage.getItem("user")) });
   }
 
   function logout() {
+    localStorage.clear("user");
+    localStorage.clear("isAuthenticated");
     dispatch({ type: "logout" });
   }
 

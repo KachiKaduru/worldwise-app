@@ -1,16 +1,3 @@
 {
-  "cities": [
-    {
-      "id": "08ec",
-      "cityName": "Calamocha",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2025-01-22",
-      "notes": "good place",
-      "position": {
-        "lat": "40.93911239705754",
-        "lng": "-1.2186257478794382"
-      }
-    }
-  ]
+  "cities": []
 }
