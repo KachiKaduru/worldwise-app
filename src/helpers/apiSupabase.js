@@ -1,5 +1,6 @@
 import supabase from "../../supabase";
 
+//USERS
 export async function getAllUsers() {
   const { data, error } = await supabase.from("worldwise_users").select("*");
   if (error) throw new Error(`error: ${error}`);
@@ -40,4 +41,32 @@ export async function createNewUser(name, email) {
     localStorage.setItem("user", JSON.stringify(data[0]));
     localStorage.setItem("isAuthenticated", true);
   }
+}
+
+//CITIES DATA
+export async function getSupabaseCities(id) {
+  const { data, error } = await supabase.from("worldwise_data").select("*").eq("user_id", id);
+
+  if (error) console.error("Error fetching the cities:", error);
+  return data;
+}
+
+export async function getSupabaseCity(id) {
+  const { data, error } = await supabase.from("worldwise_data").select("*").eq("id", id);
+
+  if (error) console.error("Error fetching the city:", error);
+  return data[0];
+}
+
+export async function createSupabaseCity(cityObject) {
+  // const { cityName, country, emoji, date, notes, position } = obj;
+  // const newCity = [cityName, country, emoji, date, notes, lat: position.lat,]
+
+  const { position, ...rest } = cityObject;
+  const newCityObject = { ...rest, lat: position.lat, lng: position.lng };
+
+  const { data, error } = await supabase.from("worldwise_data").insert([newCityObject]);
+
+  if (error) console.error("Error creating the cities:", error);
+  return data;
 }
