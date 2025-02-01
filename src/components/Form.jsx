@@ -10,6 +10,7 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import { useCities } from "../contexts/CitiesContext";
+import { useAuth } from "../contexts/FakeAuthContext";
 
 export function convertToEmoji(countryCode) {
   const codePoints = countryCode
@@ -22,6 +23,7 @@ export function convertToEmoji(countryCode) {
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 function Form() {
+  const { user } = useAuth();
   const [lat, lng] = useUrlPosition();
   const { createCity } = useCities();
   const navigate = useNavigate();
@@ -75,6 +77,7 @@ function Form() {
       date,
       notes,
       position: { lat, lng },
+      user_id: user.id,
     };
 
     await createCity(newCity);

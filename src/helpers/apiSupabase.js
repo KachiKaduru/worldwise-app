@@ -59,9 +59,6 @@ export async function getSupabaseCity(id) {
 }
 
 export async function createSupabaseCity(cityObject) {
-  // const { cityName, country, emoji, date, notes, position } = obj;
-  // const newCity = [cityName, country, emoji, date, notes, lat: position.lat,]
-
   const { position, ...rest } = cityObject;
   const newCityObject = { ...rest, lat: position.lat, lng: position.lng };
 

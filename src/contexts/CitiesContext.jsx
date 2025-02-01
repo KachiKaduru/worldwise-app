@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { useAuth } from "./FakeAuthContext";
-import { getSupabaseCities } from "../helpers/apiSupabase";
+import { createSupabaseCity, getSupabaseCities, getSupabaseCity } from "../helpers/apiSupabase";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -58,8 +58,6 @@ function CitiesProvider({ children }) {
 
       try {
         const userCities = await getSupabaseCities(user.id);
-        // console.log(userCities);
-
         dispatch({ type: "cities/loaded", payload: userCities });
       } catch {
         dispatch({ type: "rejected", payload: "Problem occured loading the cities" });
@@ -74,9 +72,8 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
-      dispatch({ type: "city/loaded", payload: data });
+      const city = await getSupabaseCity(id);
+      dispatch({ type: "city/loaded", payload: city });
     } catch {
       dispatch({ type: "rejected", payload: "Problem occured loading the city" });
     }
@@ -86,15 +83,10 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}/cities`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      dispatch({ type: "city/created", payload: data });
+      const city = await createSupabaseCity(newCity);
+      // For testing
+      await new Promise((res) => setTimeout(res, 2000));
+      dispatch({ type: "city/created", payload: city });
     } catch {
       dispatch({ type: "rejected", payload: "Problem occured creating the city" });
     }
