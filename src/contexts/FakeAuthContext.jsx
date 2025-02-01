@@ -31,8 +31,7 @@ function AuthProvider({ children }) {
   }
 
   function logout() {
-    localStorage.clear("user");
-    localStorage.clear("isAuthenticated");
+    localStorage.clear("user", "isAuthenticated");
     dispatch({ type: "logout" });
   }
 

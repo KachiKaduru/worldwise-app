@@ -1,28 +1,3 @@
 {
-  "cities": [
-    {
-      "id": "929d",
-      "cityName": "Alhondiga",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2025-01-18",
-      "notes": "sss",
-      "position": {
-        "lat": "40.538851525354666",
-        "lng": "-2.8355231256905538"
-      }
-    },
-    {
-      "id": "bc7e",
-      "cityName": "Candilichera",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2025-01-14",
-      "notes": "edca",
-      "position": {
-        "lat": "41.7631174470059",
-        "lng": "-2.3157797010155905"
-      }
-    }
-  ]
+  "cities": []
 }

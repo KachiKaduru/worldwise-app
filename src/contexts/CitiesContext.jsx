@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import { useAuth } from "./FakeAuthContext";
+import { getSupabaseCities } from "../helpers/apiSupabase";
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
@@ -48,15 +50,17 @@ function reducer(state, action) {
 function CitiesProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { cities, isLoading, currentCity, error } = state;
+  const { user } = useAuth();
 
   useEffect(function () {
     async function fetchCities() {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities`);
-        const data = await res.json();
-        dispatch({ type: "cities/loaded", payload: data });
+        const userCities = await getSupabaseCities(user.id);
+        // console.log(userCities);
+
+        dispatch({ type: "cities/loaded", payload: userCities });
       } catch {
         dispatch({ type: "rejected", payload: "Problem occured loading the cities" });
       }
