@@ -31,6 +31,8 @@ export async function createNewUser(name, email) {
   if (user) {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("isAuthenticated", true);
+    // const cities = getSupabaseCities(user.id);
+    // localStorage.setItem("cities", JSON.stringify(cities));
   } else {
     const { data, error } = await supabase
       .from("worldwise_users")
@@ -68,7 +70,7 @@ export async function createSupabaseCity(cityObject) {
   return data[0];
 }
 
-export async function deleteCity(id) {
+export async function deleteSupabaseCity(id) {
   const { error } = await supabase.from("worldwise_data").delete().eq("id", id);
   if (error) console.error("Error creating the cities:", error);
 }

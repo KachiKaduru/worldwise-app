@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/FakeAuthContext";
 import styles from "./User.module.css";
+import { useCities } from "../contexts/CitiesContext";
 
 function User() {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
+  const { clearData } = useCities();
 
   function handleClick() {
     logout();
+    clearData();
     navigate("/");
   }
 

@@ -1,8 +1,13 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { useAuth } from "./FakeAuthContext";
-import { createSupabaseCity, getSupabaseCities, getSupabaseCity } from "../helpers/apiSupabase";
+import {
+  createSupabaseCity,
+  deleteSupabaseCity,
+  getSupabaseCities,
+  getSupabaseCity,
+} from "../helpers/apiSupabase";
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+// const BASE_URL = import.meta.env.VITE_API_URL;
 
 const CitiesContext = createContext();
 
@@ -41,6 +46,9 @@ function reducer(state, action) {
 
     case "rejected":
       return { ...state, isLoading: false, error: action.payload };
+
+    case "logout":
+      return initialState;
 
     default:
       throw new Error("Unknown action");
@@ -94,14 +102,19 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      await deleteCity(id);
-      await fetch(`${BASE_URL}/cities/${id}`, {
-        method: "DELETE",
-      });
+      await deleteSupabaseCity(id);
       dispatch({ type: "city/deleted", payload: id });
     } catch {
       dispatch({ type: "rejected", payload: "Problem occured deleting the city" });
     }
+  }
+
+  function loadData(cities) {
+    dispatch({ type: "cities/loaded", payload: cities });
+  }
+
+  function clearData() {
+    dispatch({ type: "logout" });
   }
 
   return (
@@ -114,6 +127,8 @@ function CitiesProvider({ children }) {
         getCity,
         createCity,
         deleteCity,
+        loadData,
+        clearData,
       }}
     >
       {children}

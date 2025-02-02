@@ -17,6 +17,9 @@ export default function CityItem({ city }) {
 
   function handleClick(e) {
     e.preventDefault();
+
+    // console.log(id);
+
     deleteCity(id);
   }
 
