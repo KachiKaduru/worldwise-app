@@ -66,7 +66,6 @@ function CitiesProvider({ children }) {
         dispatch({ type: "loading" });
 
         try {
-          console.log(user);
           const userCities = await getSupabaseCities(user.id);
           dispatch({ type: "cities/loaded", payload: userCities });
         } catch {
