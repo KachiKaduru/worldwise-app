@@ -21,6 +21,7 @@ function City() {
     function () {
       getCity(id);
     },
+    // eslint-disable-next-line
     [id]
   );
 

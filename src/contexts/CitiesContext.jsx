@@ -12,7 +12,7 @@ import {
 const CitiesContext = createContext();
 
 const initialState = {
-  cities: [],
+  cities: JSON.parse(localStorage.getItem("cities")) || [],
   isLoading: false,
   currentCity: {},
   error: "",
@@ -48,7 +48,7 @@ function reducer(state, action) {
       return { ...state, isLoading: false, error: action.payload };
 
     case "logout":
-      return initialState;
+      return { ...state, cities: [], isLoading: false, currentCity: {}, error: "" };
 
     default:
       throw new Error("Unknown action");
@@ -60,19 +60,23 @@ function CitiesProvider({ children }) {
   const { cities, isLoading, currentCity, error } = state;
   const { user } = useAuth();
 
-  useEffect(function () {
-    async function fetchCities() {
-      dispatch({ type: "loading" });
+  useEffect(
+    function () {
+      async function fetchCities() {
+        dispatch({ type: "loading" });
 
-      try {
-        const userCities = await getSupabaseCities(user.id);
-        dispatch({ type: "cities/loaded", payload: userCities });
-      } catch {
-        dispatch({ type: "rejected", payload: "Problem occured loading the cities" });
+        try {
+          console.log(user);
+          const userCities = await getSupabaseCities(user.id);
+          dispatch({ type: "cities/loaded", payload: userCities });
+        } catch {
+          dispatch({ type: "rejected", payload: "Problem occured loading the cities" });
+        }
       }
-    }
-    fetchCities();
-  }, []);
+      fetchCities();
+    },
+    [user]
+  );
 
   async function getCity(id) {
     if (Number(id) === currentCity.id) return;

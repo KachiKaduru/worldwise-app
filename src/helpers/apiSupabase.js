@@ -29,10 +29,15 @@ export async function createNewUser(name, email) {
   const user = await getUserByEmail(email);
 
   if (user) {
+    // const { data, error } = await supabase
+    //   .from("worldwise_data")
+    //   .select("*")
+    //   .eq("user_id", user.id);
+    // if (error) console.error("Error fetching the cities:", error);
+
+    // localStorage.setItem("cities", JSON.stringify(data));
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("isAuthenticated", true);
-    // const cities = getSupabaseCities(user.id);
-    // localStorage.setItem("cities", JSON.stringify(cities));
   } else {
     const { data, error } = await supabase
       .from("worldwise_users")
