@@ -62,8 +62,13 @@ export async function createSupabaseCity(cityObject) {
   const { position, ...rest } = cityObject;
   const newCityObject = { ...rest, lat: position.lat, lng: position.lng };
 
-  const { data, error } = await supabase.from("worldwise_data").insert([newCityObject]);
+  const { data, error } = await supabase.from("worldwise_data").insert([newCityObject]).select();
 
   if (error) console.error("Error creating the cities:", error);
-  return data;
+  return data[0];
+}
+
+export async function deleteCity(id) {
+  const { error } = await supabase.from("worldwise_data").delete().eq("id", id);
+  if (error) console.error("Error creating the cities:", error);
 }

@@ -84,8 +84,6 @@ function CitiesProvider({ children }) {
 
     try {
       const city = await createSupabaseCity(newCity);
-      // For testing
-      await new Promise((res) => setTimeout(res, 2000));
       dispatch({ type: "city/created", payload: city });
     } catch {
       dispatch({ type: "rejected", payload: "Problem occured creating the city" });
@@ -96,6 +94,7 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
+      await deleteCity(id);
       await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
